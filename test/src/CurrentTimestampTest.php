@@ -8,7 +8,7 @@
 
 namespace ActiveCollab\Utils\Test;
 
-use ActiveCollab\Utils\CurrentTimestamp\CurrentTimestamp;
+use ActiveCollab\CurrentTimestamp\CurrentTimestamp;
 use ActiveCollab\Utils\Test\Base\TestCase;
 
 /**

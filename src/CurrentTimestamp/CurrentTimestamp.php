@@ -6,7 +6,7 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
-namespace ActiveCollab\Utils\CurrentTimestamp;
+namespace ActiveCollab\CurrentTimestamp;
 
 /**
  * @package ActiveCollab\Utils\CurrentTimestamp

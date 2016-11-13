@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ActiveCollab\\Utils\\": "src",
+            "ActiveCollab\\CurrentTimestamp\\": "src/CurrentTimestamp",
             "ActiveCollab\\Utils\\Test\\": "test/src"
         }
     }
