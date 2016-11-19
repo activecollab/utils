@@ -8,7 +8,8 @@
     "type": "library",
     "min-stability": "stable",
     "require": {
-        "php": ">=5.6.0"
+        "php": ">=5.6.0",
+        "ext-openssl" : "*"
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "^1.0",
@@ -16,7 +17,8 @@
     },
     "autoload": {
         "psr-4": {
-            "ActiveCollab\\CurrentTimestamp\\": "src/CurrentTimestamp"
+            "ActiveCollab\\CurrentTimestamp\\": "src/CurrentTimestamp",
+            "ActiveCollab\\Encryptor\\": "src/Encryptor"
         }
     },
     "autoload-dev": {
