@@ -27,10 +27,10 @@ interface ValueContainerInterface
      * @param  mixed $value
      * @return $this
      */
-    public function setValue($value);
+    public function &setValue($value);
 
     /**
      * @return $this
      */
-    public function removeValue();
+    public function &removeValue();
 }
