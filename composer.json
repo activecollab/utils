@@ -18,6 +18,7 @@
     "autoload": {
         "psr-4": {
             "ActiveCollab\\CurrentTimestamp\\": "src/CurrentTimestamp",
+            "ActiveCollab\\ValueContainer\\": "src/ValueContainer",
             "ActiveCollab\\Encryptor\\": "src/Encryptor"
         }
     },

@@ -54,8 +54,8 @@ class Encryptor implements EncryptorInterface
      */
     public function encrypt($value)
     {
-        if (empty($value)) {
-            return null;
+        if (!is_string($value)) {
+            $value = (string) $value;
         }
 
         $iv = openssl_random_pseudo_bytes($this->iv_size);
@@ -70,13 +70,13 @@ class Encryptor implements EncryptorInterface
     public function decrypt($value)
     {
         if (empty($value)) {
-            return null;
+            throw new InvalidArgumentException('Value is required.');
         }
 
         $separated_data = explode(':', $value);
 
         if (count($separated_data) != 2) {
-            throw new InvalidArgumentException('Separator not found in the encrypted data');
+            throw new InvalidArgumentException('Separator not found in the encrypted data.');
         }
 
         return openssl_decrypt(base64_decode($separated_data[0], true), self::METHOD, $this->key, OPENSSL_RAW_DATA, base64_decode($separated_data[1], true));
