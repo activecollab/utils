@@ -11,7 +11,7 @@ namespace ActiveCollab\ValueContainer;
 /**
  * @package ActiveCollab\ValueContainer
  */
-class ValueContainer implements ValueContainerInterface
+class ValueContainer implements ValueContainerInterface, WriteableValueContainerInterface
 {
     /**
      * @var bool

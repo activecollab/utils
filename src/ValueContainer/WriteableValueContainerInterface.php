@@ -11,15 +11,16 @@ namespace ActiveCollab\ValueContainer;
 /**
  * @package ActiveCollab\ValueContainer
  */
-interface ValueContainerInterface
+interface WriteableValueContainerInterface
 {
     /**
-     * @return bool
+     * @param  mixed $value
+     * @return $this
      */
-    public function hasValue();
+    public function &setValue($value);
 
     /**
-     * @return mixed
+     * @return $this
      */
-    public function getValue();
+    public function &removeValue();
 }
