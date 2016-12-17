@@ -17,6 +17,11 @@ use Psr\Http\Message\ServerRequestInterface;
 interface RequestValueContainerInterface extends ValueContainerInterface
 {
     /**
+     * @return ServerRequestInterface
+     */
+    public function getRequest();
+
+    /**
      * @param  ServerRequestInterface $request
      * @return $this
      */
