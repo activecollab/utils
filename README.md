@@ -23,8 +23,8 @@ Package includes `ActiveCollab\ValueContainer\Request\RequestValueContainerInter
 ```php
 <?php
 
-use Psr\Http\Message\ServerRequestInterface;
 use ActiveCollab\ValueContainer\Request\RequestValueContainer;
+use Psr\Http\Message\ServerRequestInterface;
 
 /** @var ServerRequestInterface $request */
 $request = $request->withAttribute('value_that_we_need', [1, 2, 3]);
@@ -32,7 +32,7 @@ $request = $request->withAttribute('value_that_we_need', [1, 2, 3]);
 $value_container = (new RequestValueContainer('value_that_we_need'))
     ->setRequest($request);
 
-print_r($value_container->getValue());
+print_r($value_container->getValue()); // Prints array.
 ```
 
 ## How to Add a Utility
