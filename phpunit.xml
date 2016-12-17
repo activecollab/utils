@@ -12,7 +12,7 @@
          processIsolation="false"
          colors="true">
     <testsuites>
-        <testsuite name="TemplateEngine">
+        <testsuite name="Utils">
             <directory>./test/src</directory>
         </testsuite>
     </testsuites>
