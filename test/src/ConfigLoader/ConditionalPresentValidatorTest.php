@@ -11,7 +11,7 @@ namespace ActiveCollab\Utils\Test\ConfigLoader;
 use ActiveCollab\ConfigLoader\ArrayConfigLoader;
 use ActiveCollab\Utils\Test\Base\TestCase;
 
-class PresentValidatorTest extends TestCase
+class ConditionalPresentValidatorTest extends TestCase
 {
     private $config_array_path;
 
@@ -30,7 +30,29 @@ class PresentValidatorTest extends TestCase
     {
         (new ArrayConfigLoader($this->config_array_path))
             ->load()
-            ->requirePresence('EMPTY_VALUE');
+            ->requirePresenceWhen('EMPTY_VALUE', '', 'NEW VALUE TO REQUIRE');
+    }
+
+    /**
+     * @expectedException \ActiveCollab\ConfigLoader\Exception\ValidationException
+     * @expectedExceptionMessage Found config options do not match configured requirements.
+     */
+    public function testConditionalPresenceRequiresConditionOpion()
+    {
+        (new ArrayConfigLoader($this->config_array_path))
+            ->requirePresenceWhen('OPTION THAT DOES NOT EXIST', '', 'MYSQL_HOST')
+            ->load();
+    }
+
+    /**
+     * @expectedException \ActiveCollab\ConfigLoader\Exception\ValidationException
+     * @expectedExceptionMessage Found config options do not match configured requirements.
+     */
+    public function testConditionalPresenceRequiresConditionOpionValue()
+    {
+        (new ArrayConfigLoader($this->config_array_path))
+            ->requirePresenceWhen('EMPTY_VALUE', '', 'MYSQL_HOST')
+            ->load();
     }
 
     /**
@@ -40,14 +62,14 @@ class PresentValidatorTest extends TestCase
     public function testPresentAlertsWhenOptionNotPresent()
     {
         (new ArrayConfigLoader($this->config_array_path))
-            ->requirePresence('OF OPTION THAT DOES NOT EXIST')
+            ->requirePresenceWhen('MYSQL_HOST', 'localhost', 'OPTION THAT DOES NOT EXIST')
             ->load();
     }
 
     public function testPresentDoesNotAlertWhenOptionValueIsEmpty()
     {
         $config_loader = (new ArrayConfigLoader($this->config_array_path))
-            ->requirePresence('EMPTY_VALUE')
+            ->requirePresenceWhen('MYSQL_HOST', 'localhost', 'EMPTY_VALUE')
             ->load();
 
         $this->assertSame('', $config_loader->getValue('EMPTY_VALUE'));

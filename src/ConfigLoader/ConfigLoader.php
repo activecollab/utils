@@ -15,6 +15,16 @@ abstract class ConfigLoader implements ConfigLoaderInterface
 {
     private $is_loading = false;
 
+    private $is_loaded = false;
+
+    private $required_presence = [];
+
+    private $required_value = [];
+
+    private $required_presence_when = [];
+
+    private $required_value_when = [];
+
     public function isLoading()
     {
         return $this->is_loading;
@@ -26,8 +36,6 @@ abstract class ConfigLoader implements ConfigLoaderInterface
 
         return $this;
     }
-
-    private $is_loaded = false;
 
     public function isLoaded()
     {
@@ -51,8 +59,6 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this->isLoading() || $this->isLoaded();
     }
 
-    private $required_presence = [];
-
     public function &requirePresence(...$config_options)
     {
         if ($this->isLoaded()) {
@@ -63,8 +69,6 @@ abstract class ConfigLoader implements ConfigLoaderInterface
 
         return $this;
     }
-
-    private $required_value = [];
 
     public function &requireValue(...$config_options)
     {
@@ -77,17 +81,62 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
+    public function &requirePresenceWhen($option, $has_value, ...$require_config_options)
+    {
+        if ($this->isLoaded()) {
+            throw new LogicException('Options can be required only before they are loaded.');
+        }
+
+        $this->requireValue($option);
+
+        $this->required_presence_when[] = [$option, $has_value, $require_config_options];
+
+        return $this;
+    }
+
+    public function &requireValueWhen($option, $has_value, ...$require_config_options)
+    {
+        if ($this->isLoaded()) {
+            throw new LogicException('Options can be required only before they are loaded.');
+        }
+
+        $this->requireValue($option);
+
+        $this->required_value_when[] = [$option, $has_value, $require_config_options];
+
+        return $this;
+    }
+
     protected function &validate()
     {
         $exception = new ValidationException();
 
-        foreach ($this->required_presence as $option_name) {
+        $exception = $this->validateRequiedPresence($this->required_presence, $exception);
+        $exception = $this->validateRequiredValue($this->required_value, $exception);
+        $exception = $this->validateConditionalRequiredPresence($this->required_presence_when, $exception);
+        $exception = $this->validateConditionalRequiredValue($this->required_value_when, $exception);
+
+        if ($exception->hasErrors()) {
+            throw $exception;
+        }
+
+        return $this;
+    }
+
+    private function validateRequiedPresence($options, ValidationException $exception)
+    {
+        foreach ($options as $option_name) {
             if (!$this->hasValue($option_name)) {
                 $exception->missing($option_name);
             }
         }
 
-        foreach ($this->required_value as $option_name) {
+        return $exception;
+    }
+
+    private function validateRequiredValue($options, ValidationException $exception)
+    {
+        foreach ($options as $option_name) {
             if (!$this->hasValue($option_name)) {
                 $exception->missing($option_name);
             } elseif (empty($this->getValue($option_name))) {
@@ -95,11 +144,43 @@ abstract class ConfigLoader implements ConfigLoaderInterface
             }
         }
 
-        if ($exception->hasErrors()) {
-            throw $exception;
+        return $exception;
+    }
+
+    private function validateConditionalRequiredPresence($settings, ValidationException $exception)
+    {
+        foreach ($settings as $k) {
+            list ($when_option, $has_value, $require_presence_of_options) = $k;
+
+            if ($this->getValue($when_option) == $has_value) {
+                foreach ($require_presence_of_options as $option_name) {
+                    if (!$this->hasValue($option_name)) {
+                        $exception->missing($option_name);
+                    }
+                }
+            }
         }
 
-        return $this;
+        return $exception;
+    }
+
+    private function validateConditionalRequiredValue($settings, ValidationException $exception)
+    {
+        foreach ($settings as $k) {
+            list ($when_option, $has_value, $require_presence_of_options) = $k;
+
+            if ($this->getValue($when_option) == $has_value) {
+                foreach ($require_presence_of_options as $option_name) {
+                    if (!$this->hasValue($option_name)) {
+                        $exception->missing($option_name);
+                    } elseif (empty($this->getValue($option_name))) {
+                        $exception->missingValue($option_name);
+                    }
+                }
+            }
+        }
+
+        return $exception;
     }
 
     protected function normalizeOptionName($option_name)

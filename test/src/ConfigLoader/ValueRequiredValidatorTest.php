@@ -11,7 +11,7 @@ namespace ActiveCollab\Utils\Test\ConfigLoader;
 use ActiveCollab\ConfigLoader\ArrayConfigLoader;
 use ActiveCollab\Utils\Test\Base\TestCase;
 
-class RequiredValidatorTest extends TestCase
+class ValueRequiredValidatorTest extends TestCase
 {
     private $config_array_path;
 
@@ -26,7 +26,7 @@ class RequiredValidatorTest extends TestCase
      * @expectedException \LogicException
      * @expectedExceptionMessage Option values can be required only before they are loaded.
      */
-    public function testRequireValueCanBeRequiredPriorToLoad()
+    public function testRequireValueCantBeRequiredAfterLoad()
     {
         (new ArrayConfigLoader($this->config_array_path))
             ->load()
@@ -55,7 +55,7 @@ class RequiredValidatorTest extends TestCase
             ->load();
     }
 
-    public function testPresentDoesNotAlertWhenNonEmptyValueIsFound()
+    public function testValueRequiredDoesNotAlertWhenNonEmptyValueIsFound()
     {
         $config_loader = (new ArrayConfigLoader($this->config_array_path))
             ->requireValue('MYSQL_PORT')
