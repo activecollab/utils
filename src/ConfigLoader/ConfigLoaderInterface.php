@@ -20,5 +20,5 @@ interface ConfigLoaderInterface
 
     public function &requirePresence(...$config_options);
 
-//    public function &requireValue(...$config_options);
+    public function &requireValue(...$config_options);
 }

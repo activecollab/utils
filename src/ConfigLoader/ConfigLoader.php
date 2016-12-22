@@ -64,6 +64,19 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
+    private $required_value = [];
+
+    public function &requireValue(...$config_options)
+    {
+        if ($this->isLoaded()) {
+            throw new LogicException('Option values can be required only before they are loaded.');
+        }
+
+        $this->required_value = array_unique(array_merge($this->required_value, $config_options));
+
+        return $this;
+    }
+
     protected function &validate()
     {
         $exception = new ValidationException();
@@ -71,6 +84,14 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         foreach ($this->required_presence as $option_name) {
             if (!$this->hasValue($option_name)) {
                 $exception->missing($option_name);
+            }
+        }
+
+        foreach ($this->required_value as $option_name) {
+            if (!$this->hasValue($option_name)) {
+                $exception->missing($option_name);
+            } elseif (empty($this->getValue($option_name))) {
+                $exception->missingValue($option_name);
             }
         }
 

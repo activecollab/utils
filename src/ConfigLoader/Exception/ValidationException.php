@@ -15,6 +15,8 @@ class ValidationException extends RuntimeException
 {
     private $missing_options = [];
 
+    private $missing_option_values = [];
+
     public function __construct($message = '', $code = 0, Exception $previous = null)
     {
         if (empty($message)) {
@@ -31,8 +33,15 @@ class ValidationException extends RuntimeException
         return $this;
     }
 
+    public function &missingValue($option_name)
+    {
+        $this->missing_option_values[] = $option_name;
+
+        return $this;
+    }
+
     public function hasErrors()
     {
-        return !empty($this->missing_options);
+        return !empty($this->missing_options) || !empty($this->missing_option_values);
     }
 }
