@@ -20,8 +20,8 @@ class ConfigLoaderTest extends TestCase
     {
         parent::setUp();
 
-        $this->config_array_path = dirname(__DIR__, 2) . '/resources/config_array.php';
-        $this->not_an_array_path = dirname(__DIR__, 2) . '/resources/not_an_array.php';
+        $this->config_array_path = dirname(dirname(__DIR__)) . '/resources/config_array.php';
+        $this->not_an_array_path = dirname(dirname(__DIR__)) . '/resources/not_an_array.php';
     }
 
     /**

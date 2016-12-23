@@ -19,7 +19,7 @@ class ConditionalValueRequiredValidatorTest extends TestCase
     {
         parent::setUp();
 
-        $this->config_array_path = dirname(__DIR__, 2) . '/resources/config_array.php';
+        $this->config_array_path = dirname(dirname(__DIR__)) . '/resources/config_array.php';
     }
 
     /**
