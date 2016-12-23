@@ -27,13 +27,9 @@ class ArrayConfigLoader extends ConfigLoader
         $this->options_file_path = $options_file_path;
     }
 
-    public function &load()
+    protected function onLoad()
     {
-        if ($this->isLoaded()) {
-            throw new LogicException('Options already loaded.');
-        }
-
-        $this->setIsLoading(true);
+        parent::onLoad();
 
         $options = require $this->options_file_path;
 
@@ -42,19 +38,13 @@ class ArrayConfigLoader extends ConfigLoader
         }
 
         $this->loaded_options = $options;
+    }
 
-        try {
-            $this->validate();
-        } catch (ValidationException $e) {
-            $this->loaded_options = [];
-            throw $e;
-        } finally {
-            $this->setIsLoading(false);
-        }
+    protected function onValidationFailed(ValidationException $e)
+    {
+        parent::onValidationFailed($e);
 
-        $this->setIsLoaded(true);
-
-        return $this;
+        $this->loaded_options = [];
     }
 
     public function hasValue($option_name)

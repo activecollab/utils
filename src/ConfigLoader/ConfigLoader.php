@@ -49,6 +49,43 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
+    public function &load()
+    {
+        if ($this->isLoaded()) {
+            throw new LogicException('Options already loaded.');
+        }
+
+        $this->setIsLoading(true);
+        $this->onLoad();
+
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->onValidationFailed($e);
+            throw $e;
+        } finally {
+            $this->setIsLoading(false);
+        }
+
+        $this->setIsLoaded(true);
+
+        return $this;
+    }
+
+    protected function onLoad()
+    {
+        if (!$this->isLoading()) {
+            throw new LogicException('This method should be called only during loading.');
+        }
+    }
+
+    protected function onValidationFailed(ValidationException $e)
+    {
+        if (!$this->isLoading()) {
+            throw new LogicException('This method should be called only during loading.');
+        }
+    }
+
     protected function canCheckValuePresence()
     {
         return $this->isLoading() || $this->isLoaded();
@@ -150,7 +187,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
     private function validateConditionalRequiredPresence($settings, ValidationException $exception)
     {
         foreach ($settings as $k) {
-            list ($when_option, $has_value, $require_presence_of_options) = $k;
+            list($when_option, $has_value, $require_presence_of_options) = $k;
 
             if ($this->getValue($when_option) == $has_value) {
                 foreach ($require_presence_of_options as $option_name) {
@@ -167,7 +204,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
     private function validateConditionalRequiredValue($settings, ValidationException $exception)
     {
         foreach ($settings as $k) {
-            list ($when_option, $has_value, $require_presence_of_options) = $k;
+            list($when_option, $has_value, $require_presence_of_options) = $k;
 
             if ($this->getValue($when_option) == $has_value) {
                 foreach ($require_presence_of_options as $option_name) {

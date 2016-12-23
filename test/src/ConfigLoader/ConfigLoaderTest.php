@@ -9,7 +9,9 @@
 namespace ActiveCollab\Utils\Test\ConfigLoader;
 
 use ActiveCollab\ConfigLoader\ArrayConfigLoader;
+use ActiveCollab\ConfigLoader\Exception\ValidationException;
 use ActiveCollab\Utils\Test\Base\TestCase;
+use ActiveCollab\Utils\Test\Fixtures\TestConfigLoader;
 
 class ConfigLoaderTest extends TestCase
 {
@@ -78,5 +80,23 @@ class ConfigLoaderTest extends TestCase
 
         $this->assertFalse($config_loader->hasValue('THIS ONE NOT FOUND'));
         $this->assertSame(1234567890, $config_loader->getValue('THIS ONE NOT FOUND', 1234567890));
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage This method should be called only during loading.
+     */
+    public function testExceptionOnDirectOnLoadCall()
+    {
+        (new TestConfigLoader())->callOnLoad();
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage This method should be called only during loading.
+     */
+    public function testExceptionOnDirectOnValidationFailedCall()
+    {
+        (new TestConfigLoader())->callOnValidationFailed(new ValidationException());
     }
 }
