@@ -8,7 +8,11 @@ This package is a playground for "little" PHP utilities that we use everyday. Th
 
 ### Config Loader
 
-`ActiveCollab\ConfigLoader\ConfigLoaderInterface` - Interface specifies a way to load application configuration, while specifying requirements, like option presence, or non-empty value requirements. Example:
+`ActiveCollab\ConfigLoader\ConfigLoaderInterface` - Interface specifies a way to load application configuration, while specifying requirements, like option presence, or non-empty value requirements.
+
+#### Basic Usage
+
+Example below demonstrates basic usage of config loader (we'll use `ArrayConfigLoader`, but you can use any other config loader implementation):
 
 ```php
 <?php
@@ -20,16 +24,51 @@ use ActiveCollab\ConfigLoader\ArrayConfigLoader;
 $config_loader = (new ArrayConfigLoader('/path/to/file.php'))
     ->requirePresence('APPLICATION_VERSION')
     ->requireValue('LOG_HANDLER')
-    ->requirePresenceWhenWhen('LOG_HANDLER', 'grayloag', 'GRAYLOG_HOST', 'GRAYLOG_PORT')
+    ->requirePresenceWhen('LOG_HANDLER', 'grayloag', 'GRAYLOG_HOST', 'GRAYLOG_PORT')
     ->requireValueWhen('LOG_HANDLER', 'file', 'LOG_DIR_PATH')
     ->load();
 
-if ($config_loader->getValue('LOG_HANDLER') == 'file') {
-    print 'Log dirs path is ' . $config_loader->getValue('LOG_DIR_PATH') . ".\n";
+if ($config_loader->hasValue('LOG_HANDLER')) {
+    if ($config_loader->getValue('LOG_HANDLER') == 'file') {
+        print 'Log dirs path is ' . $config_loader->getValue('LOG_DIR_PATH') . ".\n";
+    } else {
+        print 'Logs are sent to Graylog at ' . $config_loader->getValue('GRAYLOG_HOST') . ':' . $config_loader->getValue('GRAYLOG_PORT') . ".\n";    
+    }
 } else {
-    print 'Logs are sent to Graylog at ' . $config_loader->getValue('GRAYLOG_HOST') . ':' . $config_loader->getValue('GRAYLOG_PORT') . ".\n";    
+    print "Log handler not present.\n"; // Impossible case, because we value is required. Using this just to demonstrate `hasValue()` method.
 }
 ```
+
+As example above demonstrates, you can check for presence of option values by calling `hasValue()`. To get the value of an option, call `getValue()`.
+
+#### Validators
+
+There are four main validators that can be used to set config option requirements, and let config loader validate if all options that you need are present:
+
+1. `requirePresence` - Require option presence. Value can be empty,
+1. `requireValue` - Require option presence, and value must not be empty,
+1. `requirePresenceWhen` - Conditional presence requirement; when option X has value Y require presence of option Z,
+1. `requireValueWhen` - Conditional value requirement; when option X has value Y require presence of option Z, and its value must not be empty.
+
+All four validators accept arrays of required fields:
+
+```php
+<?php
+
+namespace MyApp;
+
+use ActiveCollab\ConfigLoader\ArrayConfigLoader;
+
+(new ArrayConfigLoader('/path/to/file.php'))
+    ->requirePresence('X', 'Y', 'Z')
+    ->requireValue('A', 'B', 'C')
+    ->requirePresenceWhen('LOG_HANDLER', 'grayloag', 'X', 'Y', 'Z')
+    ->requireValueWhen('LOG_HANDLER', 'file', 'A', 'B', 'C');
+```
+
+**Note**: Validators that add conditional requirements will make condition option required, and it's value will not be allowed to be empty.
+
+#### Validation Errors
 
 In case of a validation error (required option does not exist, or it is empty when value is required), and exception will be thrown:
 
@@ -42,16 +81,18 @@ use ActiveCollab\ConfigLoader\ArrayConfigLoader;
 use ActiveCollab\ConfigLoader\Exception\ValidationException;
 
 try {
-    $config_loader = (new ArrayConfigLoader('/path/to/file.php'))
+    (new ArrayConfigLoader('/path/to/file.php'))
         ->requirePresence('APPLICATION_VERSION')
         ->requireValue('LOG_HANDLER')
-        ->requirePresenceWhenWhen('LOG_HANDLER', 'grayloag', 'GRAYLOG_HOST', 'GRAYLOG_PORT')
+        ->requirePresenceWhen('LOG_HANDLER', 'grayloag', 'GRAYLOG_HOST', 'GRAYLOG_PORT')
         ->requireValueWhen('LOG_HANDLER', 'file', 'LOG_DIR_PATH')
         ->load();
 } catch (ValidationException $e) {
-    print 'Config could not be loaded. Reason: ' $e->getMessage() . "\n";
+    print 'Config could not be loaded. Reason: ' . $e->getMessage() . "\n";
 }
 ```
+
+**Note**: Requirements can be set prior to calling `load()` method. If you try to set requirements after config option have been loaded, an exception will be thrown. 
 
 ### Current Timestamp
 
