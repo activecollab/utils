@@ -6,6 +6,53 @@ This package is a playground for "little" PHP utilities that we use everyday. Th
 
 ## What's Inside
 
+### Config Loader
+
+`ActiveCollab\ConfigLoader\ConfigLoaderInterface` - Interface specifies a way to load application configuration, while specifying requirements, like option presence, or non-empty value requirements. Example:
+
+```php
+<?php
+
+namespace MyApp;
+
+use ActiveCollab\ConfigLoader\ArrayConfigLoader;
+
+$config_loader = (new ArrayConfigLoader('/path/to/file.php'))
+    ->requirePresence('APPLICATION_VERSION')
+    ->requireValue('LOG_HANDLER')
+    ->requirePresenceWhenWhen('LOG_HANDLER', 'grayloag', 'GRAYLOG_HOST', 'GRAYLOG_PORT')
+    ->requireValueWhen('LOG_HANDLER', 'file', 'LOG_DIR_PATH')
+    ->load();
+
+if ($config_loader->getValue('LOG_HANDLER') == 'file') {
+    print 'Log dirs path is ' . $config_loader->getValue('LOG_DIR_PATH') . ".\n";
+} else {
+    print 'Logs are sent to Graylog at ' . $config_loader->getValue('GRAYLOG_HOST') . ':' . $config_loader->getValue('GRAYLOG_PORT') . ".\n";    
+}
+```
+
+In case of a validation error (required option does not exist, or it is empty when value is required), and exception will be thrown:
+
+```php
+<?php
+
+namespace MyApp;
+
+use ActiveCollab\ConfigLoader\ArrayConfigLoader;
+use ActiveCollab\ConfigLoader\Exception\ValidationException;
+
+try {
+    $config_loader = (new ArrayConfigLoader('/path/to/file.php'))
+        ->requirePresence('APPLICATION_VERSION')
+        ->requireValue('LOG_HANDLER')
+        ->requirePresenceWhenWhen('LOG_HANDLER', 'grayloag', 'GRAYLOG_HOST', 'GRAYLOG_PORT')
+        ->requireValueWhen('LOG_HANDLER', 'file', 'LOG_DIR_PATH')
+        ->load();
+} catch (ValidationException $e) {
+    print 'Config could not be loaded. Reason: ' $e->getMessage() . "\n";
+}
+```
+
 ### Current Timestamp
 
 `ActiveCollab\CurrentTimestamp\CurrentTimestampInterface` - Interface specifies a way how to get a current timestamp. Default implementation uses a `time()` function call, but you can use any implementation, including timestamp locking (great for tests).
