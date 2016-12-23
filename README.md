@@ -6,6 +6,11 @@ This package is a playground for "little" PHP utilities that we use everyday. Th
 
 ## What's Inside
 
+1. [Config Loader](#config-loader)
+1. [Current Timestamp](#current-timestamp)
+1. [Encryptor](#encryptor)
+1. [Value Container](#value-container)
+
 ### Config Loader
 
 `ActiveCollab\ConfigLoader\ConfigLoaderInterface` - Interface specifies a way to load application configuration, while specifying requirements, like option presence, or non-empty value requirements.
