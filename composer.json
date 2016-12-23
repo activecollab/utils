@@ -16,10 +16,12 @@
         "friendsofphp/php-cs-fixer": "^1.0",
         "phpunit/phpunit": "^5.0",
         "psr/http-message": "~1.0",
+        "vlucas/phpdotenv": "^2.2.0",
         "zendframework/zend-diactoros": "^1.3"
     },
     "suggest": {
-        "psr/http-message": "When you need to use RequestValuContainer"
+        "psr/http-message": "When you need to use RequestValuContainer",
+        "vlucas/phpdotenv": "When you want to use DotEnv config loader"
     },
     "autoload": {
         "psr-4": {
