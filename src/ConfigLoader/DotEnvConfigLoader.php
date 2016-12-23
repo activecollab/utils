@@ -8,7 +8,6 @@
 
 namespace ActiveCollab\ConfigLoader;
 
-use ActiveCollab\ConfigLoader\Exception\ValidationException;
 use Dotenv\Dotenv;
 use LogicException;
 
@@ -21,27 +20,11 @@ class DotEnvConfigLoader extends ConfigLoader
         $this->dotenv = $dotenv;
     }
 
-    public function &load()
+    protected function onLoad()
     {
-        if ($this->isLoaded()) {
-            throw new LogicException('Options already loaded.');
-        }
-
-        $this->setIsLoading(true);
+        parent::onLoad();
 
         $this->dotenv->load();
-
-        try {
-            $this->validate();
-        } catch (ValidationException $e) {
-            throw $e;
-        } finally {
-            $this->setIsLoading(false);
-        }
-
-        $this->setIsLoaded(true);
-
-        return $this;
     }
 
     public function hasValue($option_name)
