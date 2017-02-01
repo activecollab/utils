@@ -3,4 +3,4 @@ php:
   - 5.6
   - '7'
 install: composer install --dev
-script: phpunit
+script: vendor/bin/phpunit

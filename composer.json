@@ -27,8 +27,9 @@
         "psr-4": {
             "ActiveCollab\\ConfigLoader\\": "src/ConfigLoader",
             "ActiveCollab\\CurrentTimestamp\\": "src/CurrentTimestamp",
-            "ActiveCollab\\ValueContainer\\": "src/ValueContainer",
-            "ActiveCollab\\Encryptor\\": "src/Encryptor"
+            "ActiveCollab\\Encryptor\\": "src/Encryptor",
+            "ActiveCollab\\Firewall\\": "src/Firewall",
+            "ActiveCollab\\ValueContainer\\": "src/ValueContainer"
         }
     },
     "autoload-dev": {
