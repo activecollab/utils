@@ -9,6 +9,7 @@ This package is a playground for "little" PHP utilities that we use everyday. Th
 1. [Config Loader](#config-loader)
 1. [Current Timestamp](#current-timestamp)
 1. [Encryptor](#encryptor)
+1. [Firewall](#firewall)
 1. [Value Container](#value-container)
 
 ### Config Loader
