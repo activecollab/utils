@@ -107,6 +107,24 @@ try {
  
 `ActiveCollab\Encryptor\EncryptorInterface` - Interface specifies a way to encrypt and decrypt values. It does not specify how values are encrypted, or decrypted, just that they can be. All dependencies and implementation details need to go to the implementation, and specifics need to be configured via constructor arguments, or setters. Default implementation that uses AES 256 CBC is part of the package.
 
+### Firewall
+
+`ActiveCollab\Firewall\FirewallInterface` - This interface and implementation allow you to check IP addresses agains white and black address lists, and block unwanted traffic:
+
+```php
+<?php
+
+namespace MyApp;
+
+use ActiveCollab\Firewall\Firewall;
+use ActiveCollab\Firewall\IpAddress;
+
+$firewall = new Firewall(['72.165.1.2'], ['72.165.0.0/16']);
+
+$firewall->shouldBlock(new IpAddress('72.165.1.2')); // No, address is white-listed.
+$firewall->shouldBlock(new IpAddress('72.165.1.3')); // Yes, address is in the black-listed range.
+```
+
 ### Value Container
 
 `ActiveCollab\ValueContainer\ValueContainerInterface` - Interface that enables value access abstraction. For example, it can be used to abstract access to a value in a way that class does not know where and how value is store, it just knows that it can check for its presence, get the value, set it or remove it.
