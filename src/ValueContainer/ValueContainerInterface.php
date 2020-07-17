@@ -6,20 +6,12 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\ValueContainer;
 
-/**
- * @package ActiveCollab\ValueContainer
- */
 interface ValueContainerInterface
 {
-    /**
-     * @return bool
-     */
-    public function hasValue();
-
-    /**
-     * @return mixed
-     */
+    public function hasValue(): bool;
     public function getValue();
 }

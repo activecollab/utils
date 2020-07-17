@@ -37,7 +37,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
-    public function isLoaded()
+    public function isLoaded(): bool
     {
         return $this->is_loaded;
     }
@@ -49,7 +49,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
-    public function &load()
+    public function load(): ConfigLoaderInterface
     {
         if ($this->isLoaded()) {
             throw new LogicException('Options already loaded.');
@@ -96,7 +96,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this->isLoading() || $this->isLoaded();
     }
 
-    public function &requirePresence(...$config_options)
+    public function requirePresence(...$config_options): ConfigLoaderInterface
     {
         if ($this->isLoaded()) {
             throw new LogicException('Options can be required only before they are loaded.');
@@ -107,7 +107,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
-    public function &requireValue(...$config_options)
+    public function requireValue(...$config_options): ConfigLoaderInterface
     {
         if ($this->isLoaded()) {
             throw new LogicException('Option values can be required only before they are loaded.');
@@ -118,7 +118,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
-    public function &requirePresenceWhen($option, $has_value, ...$require_config_options)
+    public function requirePresenceWhen($option, $has_value, ...$require_config_options): ConfigLoaderInterface
     {
         if ($this->isLoaded()) {
             throw new LogicException('Options can be required only before they are loaded.');
@@ -131,7 +131,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
-    public function &requireValueWhen($option, $has_value, ...$require_config_options)
+    public function requireValueWhen($option, $has_value, ...$require_config_options): ConfigLoaderInterface
     {
         if ($this->isLoaded()) {
             throw new LogicException('Options can be required only before they are loaded.');
@@ -144,7 +144,7 @@ abstract class ConfigLoader implements ConfigLoaderInterface
         return $this;
     }
 
-    protected function &validate()
+    protected function validate(): ConfigLoaderInterface
     {
         $exception = new ValidationException();
 

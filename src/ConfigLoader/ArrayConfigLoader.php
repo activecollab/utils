@@ -47,7 +47,7 @@ class ArrayConfigLoader extends ConfigLoader
         $this->loaded_options = [];
     }
 
-    public function hasValue($option_name)
+    public function hasValue($option_name): bool
     {
         if (!$this->canCheckValuePresence()) {
             throw new LogicException('Options not loaded.');
@@ -56,7 +56,7 @@ class ArrayConfigLoader extends ConfigLoader
         return array_key_exists($this->normalizeOptionName($option_name), $this->loaded_options);
     }
 
-    public function getValue($option_name, $default = null)
+    public function getValue(string $option_name, $default = null)
     {
         if (!$this->canGetValue()) {
             throw new LogicException('Options not loaded.');

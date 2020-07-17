@@ -23,12 +23,12 @@ class TestConfigLoader extends ConfigLoader
         $this->onValidationFailed($e);
     }
 
-    public function hasValue($option_name)
+    public function hasValue(string $option_name): bool
     {
         return false;
     }
 
-    public function getValue($option_name, $default = null)
+    public function getValue(string $option_name, $default = null)
     {
         return $default;
     }

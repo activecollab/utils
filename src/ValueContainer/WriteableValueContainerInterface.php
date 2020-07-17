@@ -6,21 +6,12 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\ValueContainer;
 
-/**
- * @package ActiveCollab\ValueContainer
- */
 interface WriteableValueContainerInterface
 {
-    /**
-     * @param  mixed $value
-     * @return $this
-     */
-    public function &setValue($value);
-
-    /**
-     * @return $this
-     */
-    public function &removeValue();
+    public function setValue($value): ValueContainerInterface;
+    public function removeValue(): ValueContainerInterface;
 }

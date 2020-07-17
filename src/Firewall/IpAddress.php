@@ -6,6 +6,8 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Firewall;
 
 use InvalidArgumentException;
@@ -22,12 +24,7 @@ class IpAddress implements IpAddressInterface
      */
     private $network_filter;
 
-    /**
-     * IpAddress constructor.
-     *
-     * @param string $ip_address
-     */
-    public function __construct($ip_address)
+    public function __construct(string $ip_address)
     {
         if (!$this->validateAddress($ip_address)) {
             throw new InvalidArgumentException("Value '$ip_address' is not a valid IP address.");
@@ -43,10 +40,7 @@ class IpAddress implements IpAddressInterface
         $this->network_filter = $network_filter;
     }
 
-    /**
-     * @return string
-     */
-    public function getIpAddress()
+    public function getIpAddress(): string
     {
         return $this->ip_address;
     }
@@ -72,7 +66,7 @@ class IpAddress implements IpAddressInterface
      * @param  string        $ip_address
      * @return bool|callable
      */
-    private function prepareNetworkFilter($ip_address)
+    private function prepareNetworkFilter(string $ip_address)
     {
         $ipv4 = filter_var($ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
         $ipv6 = filter_var($ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
@@ -140,10 +134,12 @@ class IpAddress implements IpAddressInterface
                     // Parse the address into a binary string
                     $firstaddrbin = inet_pton($firstaddrstr);
 
+                    $unpacked = unpack('H*', $firstaddrbin);
+
                     // Convert the binary string to a string with hexadecimal characters
                     // unpack() can be replaced with bin2hex()
                     // unpack() is used for symmetry with pack() below
-                    $firstaddrhex = reset(unpack('H*', $firstaddrbin));
+                    $firstaddrhex = reset($unpacked);
 
                     // Calculate the number of 'flexible' bits
                     $flexbits = 128 - $prefixlen;
@@ -198,13 +194,7 @@ class IpAddress implements IpAddressInterface
         return $result;
     }
 
-    /**
-     * Validate IP address.
-     *
-     * @param  string $ip_address
-     * @return bool
-     */
-    private function validateAddress($ip_address)
+    private function validateAddress($ip_address): bool
     {
         return filter_var($ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ||
             filter_var($ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);

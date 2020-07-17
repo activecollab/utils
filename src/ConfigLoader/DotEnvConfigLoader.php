@@ -27,7 +27,7 @@ class DotEnvConfigLoader extends ConfigLoader
         $this->dotenv->load();
     }
 
-    public function hasValue($option_name)
+    public function hasValue(string $option_name): bool
     {
         if (!$this->canCheckValuePresence()) {
             throw new LogicException('Options not loaded.');
@@ -36,7 +36,7 @@ class DotEnvConfigLoader extends ConfigLoader
         return getenv($this->normalizeOptionName($option_name)) !== false;
     }
 
-    public function getValue($option_name, $default = null)
+    public function getValue(string $option_name, $default = null)
     {
         if (!$this->canGetValue()) {
             throw new LogicException('Options not loaded.');

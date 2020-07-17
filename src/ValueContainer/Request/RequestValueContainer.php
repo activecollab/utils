@@ -6,59 +6,36 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\ValueContainer\Request;
 
 use LogicException;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @package ActiveCollab\ValueContainer\Request
- */
 class RequestValueContainer implements RequestValueContainerInterface
 {
-    /**
-     * @var ServerRequestInterface
-     */
-    private $request;
+    private ?ServerRequestInterface $request = null;
+    private string $attribute_name;
 
-    /**
-     * @var string
-     */
-    private $attribute_name;
-
-    /**
-     * RequestValueContainer constructor.
-     *
-     * @param string $attribute_name
-     */
-    public function __construct($attribute_name)
+    public function __construct(string $attribute_name)
     {
         $this->attribute_name = $attribute_name;
     }
 
-    /**
-     * @return ServerRequestInterface
-     */
-    public function getRequest()
+    public function getRequest(): ?ServerRequestInterface
     {
         return $this->request;
     }
 
-    /**
-     * @param  ServerRequestInterface $request
-     * @return $this
-     */
-    public function &setRequest(ServerRequestInterface $request)
+    public function setRequest(?ServerRequestInterface $request): RequestValueContainerInterface
     {
         $this->request = $request;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasValue()
+    public function hasValue(): bool
     {
         if (!$this->getRequest()) {
             throw new LogicException('Request not set.');
@@ -67,9 +44,6 @@ class RequestValueContainer implements RequestValueContainerInterface
         return array_key_exists($this->attribute_name, $this->getRequest()->getAttributes());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue()
     {
         if (!$this->getRequest()) {

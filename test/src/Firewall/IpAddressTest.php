@@ -61,7 +61,7 @@ class IpAddressTest extends TestCase
             ['127.0.0'],
             [':1'],
             ['not an address'],
-            [123],
+            ['123'],
         ];
     }
 

@@ -25,15 +25,8 @@ class Encryptor implements EncryptorInterface
 {
     const METHOD = 'aes-256-cbc';
 
-    /**
-     * @var string
-     */
-    private $key;
-
-    /**
-     * @var int
-     */
-    private $iv_size;
+    private string $key;
+    private int $iv_size;
 
     public function __construct(string $key)
     {
@@ -45,11 +38,7 @@ class Encryptor implements EncryptorInterface
         $this->iv_size = openssl_cipher_iv_length(self::METHOD);
     }
 
-    /**
-     * @param  mixed  $value
-     * @return string
-     */
-    public function encrypt($value)
+    public function encrypt($value): string
     {
         if (!is_string($value)) {
             $value = (string) $value;
@@ -72,11 +61,7 @@ class Encryptor implements EncryptorInterface
         );
     }
 
-    /**
-     * @param  string $value
-     * @return mixed
-     */
-    public function decrypt($value)
+    public function decrypt(string $value)
     {
         if (empty($value)) {
             throw new InvalidArgumentException('Value is required.');
