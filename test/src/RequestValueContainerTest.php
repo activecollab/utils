@@ -6,21 +6,23 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test;
 
 use ActiveCollab\Utils\Test\Base\TestCase;
 use ActiveCollab\ValueContainer\Request\RequestValueContainer;
+use LogicException;
 use Zend\Diactoros\Request;
 use Zend\Diactoros\ServerRequest;
 
 class RequestValueContainerTest extends TestCase
 {
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Request not set.
-     */
     public function testHasValueWithNoRequest()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Request not set.");
+
         (new RequestValueContainer('test_key'))->hasValue();
     }
 
@@ -39,12 +41,11 @@ class RequestValueContainerTest extends TestCase
         $this->assertTrue($container->hasValue());
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Request not set.
-     */
     public function testGetValueWithNoRequest()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Request not set.");
+
         (new RequestValueContainer('test_key'))->getValue();
     }
 
