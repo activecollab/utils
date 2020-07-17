@@ -35,13 +35,10 @@ class Encryptor implements EncryptorInterface
      */
     private $iv_size;
 
-    /**
-     * @param string $key
-     */
-    public function __construct($key)
+    public function __construct(string $key)
     {
-        if (!is_string($key) || empty($key)) {
-            throw new InvalidArgumentException('Key needs to be a non-empty string value');
+        if (empty($key)) {
+            throw new InvalidArgumentException('Key needs to be a non-empty string value.');
         }
 
         $this->key = $key;
@@ -60,7 +57,19 @@ class Encryptor implements EncryptorInterface
 
         $iv = openssl_random_pseudo_bytes($this->iv_size);
 
-        return base64_encode(openssl_encrypt($value, self::METHOD, $this->key, OPENSSL_RAW_DATA, $iv)) . ':' . base64_encode($iv);
+        return sprintf(
+            '%s:%s',
+            base64_encode(
+                openssl_encrypt(
+                    $value,
+                    self::METHOD,
+                    $this->key,
+                    OPENSSL_RAW_DATA,
+                    $iv
+                )
+            ),
+            base64_encode($iv)
+        );
     }
 
     /**
@@ -79,6 +88,11 @@ class Encryptor implements EncryptorInterface
             throw new InvalidArgumentException('Separator not found in the encrypted data.');
         }
 
-        return openssl_decrypt(base64_decode($separated_data[0], true), self::METHOD, $this->key, OPENSSL_RAW_DATA, base64_decode($separated_data[1], true));
+        return openssl_decrypt(
+            base64_decode($separated_data[0], true),
+            self::METHOD, $this->key,
+            OPENSSL_RAW_DATA,
+            base64_decode($separated_data[1], true)
+        );
     }
 }
