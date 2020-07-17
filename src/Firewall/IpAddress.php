@@ -10,9 +10,6 @@ namespace ActiveCollab\Firewall;
 
 use InvalidArgumentException;
 
-/**
- * @package ActiveCollab\Firewall
- */
 class IpAddress implements IpAddressInterface
 {
     /**
@@ -54,10 +51,7 @@ class IpAddress implements IpAddressInterface
         return $this->ip_address;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isOnList(array $list)
+    public function isOnList(array $list): bool
     {
         foreach ($list as $list_rule) {
             if ($this->ip_address == $list_rule) {

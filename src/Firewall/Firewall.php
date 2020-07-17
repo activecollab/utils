@@ -6,13 +6,12 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Firewall;
 
 use InvalidArgumentException;
 
-/**
- * @package ActiveCollab\Firewall
- */
 class Firewall implements FirewallInterface
 {
     /**
@@ -48,26 +47,17 @@ class Firewall implements FirewallInterface
         $this->black_list = $black_list;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWhiteList()
+    public function getWhiteList(): array
     {
         return $this->white_list;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlackList()
+    public function getBlackList(): array
     {
         return $this->black_list;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function shouldBlock(IpAddressInterface $ip_address)
+    public function shouldBlock(IpAddressInterface $ip_address): bool
     {
         if ($this->isOnWhiteList($ip_address)) {
             return false;
@@ -80,29 +70,17 @@ class Firewall implements FirewallInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isOnWhiteList(IpAddressInterface $ip_address)
+    public function isOnWhiteList(IpAddressInterface $ip_address): bool
     {
         return $ip_address->isOnList($this->getWhiteList());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isOnBlackList(IpAddressInterface $ip_address)
+    public function isOnBlackList(IpAddressInterface $ip_address): bool
     {
         return $ip_address->isOnList($this->getBlackList());
     }
 
-    /**
-     * Validate list of firewall rules.
-     *
-     * @param  array $list
-     * @return bool
-     */
-    private function validateList(array $list)
+    private function validateList(array $list): bool
     {
         foreach ($list as $rule) {
             if (!$this->validateRule($rule)) {
@@ -113,13 +91,7 @@ class Firewall implements FirewallInterface
         return true;
     }
 
-    /**
-     * Validate filtering rule.
-     *
-     * @param  string $rule
-     * @return bool
-     */
-    private function validateRule($rule)
+    private function validateRule(string $rule): bool
     {
         if (strpos($rule, '/')) {
             list($rule, $mask) = explode('/', $rule);
