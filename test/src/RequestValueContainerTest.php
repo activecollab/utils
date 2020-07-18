@@ -12,9 +12,8 @@ namespace ActiveCollab\Utils\Test;
 
 use ActiveCollab\Utils\Test\Base\TestCase;
 use ActiveCollab\ValueContainer\Request\RequestValueContainer;
+use Laminas\Diactoros\ServerRequest;
 use LogicException;
-use Zend\Diactoros\Request;
-use Zend\Diactoros\ServerRequest;
 
 class RequestValueContainerTest extends TestCase
 {
