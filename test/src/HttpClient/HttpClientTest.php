@@ -68,17 +68,33 @@ class HttpClientTest extends TestCase
         ];
     }
 
-    public function testGetWillSendRequest(): void
+    /**
+     * @dataProvider provideDataForMakeRequestTest
+     * @param string $method
+     * @param string $expectedHttpMethod
+     */
+    public function testWillSendRequest(string $method, string $expectedHttpMethod): void
     {
         $psrHttpClient = $this->getTestHttpClient();
 
-        (new HttpClient($psrHttpClient, new RequestFactory()))->get('https://activecollab.com?test=1');
+        (new HttpClient($psrHttpClient, new RequestFactory()))->$method('https://activecollab.com?test=1');
 
         $capturedRequest = $psrHttpClient->getCapturedRequest();
 
         $this->assertInstanceOf(RequestInterface::class, $capturedRequest);
-        $this->assertSame('GET', $capturedRequest->getMethod());
+        $this->assertSame($expectedHttpMethod, $capturedRequest->getMethod());
         $this->assertSame('https://activecollab.com?test=1', (string) $capturedRequest->getUri());
+    }
+
+    public function provideDataForMakeRequestTest(): array
+    {
+        return [
+            ['get', 'GET'],
+            ['post', 'POST'],
+            ['put', 'PUT'],
+            ['patch', 'PATCH'],
+            ['delete', 'DELETE'],
+        ];
     }
 
     private function getTestHttpClient(ResponseInterface $response = null): ClientInterface
