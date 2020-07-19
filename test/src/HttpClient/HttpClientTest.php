@@ -17,6 +17,7 @@ use Laminas\Diactoros\RequestFactory;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class HttpClientTest extends TestCase
 {
@@ -65,5 +66,48 @@ class HttpClientTest extends TestCase
             ['patch', 'https://activecollab.com'],
             ['delete', 'https://activecollab.com'],
         ];
+    }
+
+    public function testGetWillSendRequest(): void
+    {
+        $psrHttpClient = $this->getTestHttpClient();
+
+        (new HttpClient($psrHttpClient, new RequestFactory()))->get('https://activecollab.com?test=1');
+
+        $capturedRequest = $psrHttpClient->getCapturedRequest();
+
+        $this->assertInstanceOf(RequestInterface::class, $capturedRequest);
+        $this->assertSame('GET', $capturedRequest->getMethod());
+        $this->assertSame('https://activecollab.com?test=1', (string) $capturedRequest->getUri());
+    }
+
+    private function getTestHttpClient(ResponseInterface $response = null): ClientInterface
+    {
+        if (empty($response)) {
+            $response = $this->createMock(ResponseInterface::class);
+        }
+
+        return new class ($response) implements ClientInterface
+        {
+            private ResponseInterface $response;
+            private ?RequestInterface $capturedRequest = null;
+
+            public function __construct(ResponseInterface $response)
+            {
+                $this->response = $response;
+            }
+
+            public function sendRequest(RequestInterface $request): ResponseInterface
+            {
+                $this->capturedRequest = $request;
+
+                return $this->response;
+            }
+
+            public function getCapturedRequest(): ?RequestInterface
+            {
+                return $this->capturedRequest;
+            }
+        };
     }
 }
