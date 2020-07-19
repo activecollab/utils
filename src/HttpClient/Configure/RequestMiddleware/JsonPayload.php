@@ -8,26 +8,26 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\HttpClient\RequestMiddleware;
+namespace ActiveCollab\HttpClient\Configure\RequestMiddleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
 class JsonPayload implements RequestMiddlewareInterface
 {
-    private $payload;
     private StreamFactoryInterface $streamFactory;
+    private $payload;
 
-    public function __construct($payload, StreamFactoryInterface $streamFactory)
+    public function __construct(StreamFactoryInterface $streamFactory, $payload)
     {
-        $this->payload = $payload;
         $this->streamFactory = $streamFactory;
+        $this->payload = $payload;
     }
 
     public function alter(RequestInterface $request): RequestInterface
     {
         return $request
-            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withBody(
                 $this->streamFactory->createStream(
                     json_encode(

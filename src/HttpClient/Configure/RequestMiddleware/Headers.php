@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\HttpClient\RequestMiddleware;
+namespace ActiveCollab\HttpClient\Configure\RequestMiddleware;
 
 use Psr\Http\Message\RequestInterface;
 

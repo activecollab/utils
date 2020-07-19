@@ -8,11 +8,12 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\HttpClient\RequestMiddleware;
+namespace ActiveCollab\HttpClient\Configure\RequestMiddleware;
 
+use ActiveCollab\HttpClient\Configure\ConfigureMiddlewareInterface;
 use Psr\Http\Message\RequestInterface;
 
-interface RequestMiddlewareInterface
+interface RequestMiddlewareInterface extends ConfigureMiddlewareInterface
 {
     public function alter(RequestInterface $request): RequestInterface;
 }

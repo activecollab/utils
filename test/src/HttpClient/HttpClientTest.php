@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace ActiveCollab\Utils\Test\HttpClient;
 
 use ActiveCollab\HttpClient\HttpClient;
-use ActiveCollab\HttpClient\RequestMiddleware\RequestMiddlewareInterface;
+use ActiveCollab\HttpClient\Configure\RequestMiddleware\RequestMiddlewareInterface;
 use ActiveCollab\Utils\Test\Base\TestCase;
 use Laminas\Diactoros\RequestFactory;
 use Psr\Http\Client\ClientInterface;

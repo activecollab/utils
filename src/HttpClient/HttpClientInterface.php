@@ -10,14 +10,14 @@ declare(strict_types=1);
 
 namespace ActiveCollab\HttpClient;
 
-use ActiveCollab\HttpClient\RequestMiddleware\RequestMiddlewareInterface;
+use ActiveCollab\HttpClient\Configure\ConfigureMiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 
 interface HttpClientInterface
 {
-    public function get(string $url, RequestMiddlewareInterface ...$requestMiddlewares): ResponseInterface;
-    public function post(string $url, RequestMiddlewareInterface ...$requestMiddlewares): ResponseInterface;
-    public function put(string $url, RequestMiddlewareInterface ...$requestMiddlewares): ResponseInterface;
-    public function patch(string $url, RequestMiddlewareInterface ...$requestMiddlewares): ResponseInterface;
-    public function delete(string $url, RequestMiddlewareInterface ...$requestMiddlewares): ResponseInterface;
+    public function get(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface;
+    public function post(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface;
+    public function put(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface;
+    public function patch(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface;
+    public function delete(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface;
 }
