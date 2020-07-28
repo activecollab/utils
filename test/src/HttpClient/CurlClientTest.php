@@ -14,4 +14,13 @@ use ActiveCollab\Utils\Test\Base\TestCase;
 
 class CurlClientTest extends TestCase
 {
+    public function testWillUseDefaultClientMiddlewares(): void
+    {
+        $this->fail('No implemented');
+    }
+
+    public function testWillUseRequestClientMiddlewares(): void
+    {
+        $this->fail('No implemented');
+    }
 }

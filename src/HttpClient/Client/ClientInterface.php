@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace ActiveCollab\HttpClient\Client;
 
-interface ClientInterface
+use Psr\Http\Client\ClientInterface as PsrClientInterface;
+
+interface ClientInterface extends PsrClientInterface
 {
 }

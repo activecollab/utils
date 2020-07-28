@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace ActiveCollab\HttpClient\Client;
 
-class CurlClientFactory
+use ActiveCollab\HttpClient\Client\ClientInterface;
+
+interface ClientFactoryInterface
 {
-    public function createClient(): ClientInterface
-    {
-    }
+    public function createClient(): ClientInterface;
 }
