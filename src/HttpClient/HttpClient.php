@@ -38,35 +38,35 @@ class HttpClient implements HttpClientInterface
 
     public function get(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface
     {
-        return $this->prepareClient($configureMiddlewares)->sendRequest(
+        return $this->prepareClient(...$configureMiddlewares)->sendRequest(
             $this->prepareRequest(self::METHOD_GET, $url, ...$configureMiddlewares)
         );
     }
 
     public function post(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface
     {
-        return $this->prepareClient($configureMiddlewares)->sendRequest(
+        return $this->prepareClient(...$configureMiddlewares)->sendRequest(
             $this->prepareRequest(self::METHOD_POST, $url, ...$configureMiddlewares)
         );
     }
 
     public function put(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface
     {
-        return $this->prepareClient($configureMiddlewares)->sendRequest(
+        return $this->prepareClient(...$configureMiddlewares)->sendRequest(
             $this->prepareRequest(self::METHOD_PUT, $url, ...$configureMiddlewares)
         );
     }
 
     public function patch(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface
     {
-        return $this->prepareClient($configureMiddlewares)->sendRequest(
+        return $this->prepareClient(...$configureMiddlewares)->sendRequest(
             $this->prepareRequest(self::METHOD_PATCH, $url, ...$configureMiddlewares)
         );
     }
 
     public function delete(string $url, ConfigureMiddlewareInterface ...$configureMiddlewares): ResponseInterface
     {
-        return $this->prepareClient($configureMiddlewares)->sendRequest(
+        return $this->prepareClient(...$configureMiddlewares)->sendRequest(
             $this->prepareRequest(self::METHOD_DELETE, $url, ...$configureMiddlewares)
         );
     }

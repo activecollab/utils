@@ -10,11 +10,12 @@ declare(strict_types=1);
 
 namespace ActiveCollab\Utils\Test\HttpClient;
 
+use ActiveCollab\HttpClient\Client\ClientInterface;
+use ActiveCollab\HttpClient\Client\Factory\ClientFactoryInterface;
 use ActiveCollab\HttpClient\HttpClient;
 use ActiveCollab\HttpClient\Configure\RequestMiddleware\RequestMiddlewareInterface;
 use ActiveCollab\Utils\Test\Base\TestCase;
 use Laminas\Diactoros\RequestFactory;
-use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -32,6 +33,12 @@ class HttpClientTest extends TestCase
         $psrHttpClient
             ->expects($this->once())
             ->method('sendRequest');
+
+        $clientFactoryMock = $this->createMock(ClientFactoryInterface::class);
+        $clientFactoryMock
+            ->expects($this->once())
+            ->method('createClient')
+            ->willReturn($psrHttpClient);
 
         $requestMock = $this->createMock(RequestInterface::class);
 
@@ -53,7 +60,7 @@ class HttpClientTest extends TestCase
             ->method('alter')
             ->willReturn($requestMock);
 
-        $httpClient = new HttpClient($psrHttpClient, $requestFactoryMock);
+        $httpClient = new HttpClient($clientFactoryMock, $requestFactoryMock);
         call_user_func([$httpClient, $method], $url, $middleware1, $middleware2);
     }
 
@@ -77,7 +84,13 @@ class HttpClientTest extends TestCase
     {
         $psrHttpClient = $this->getTestHttpClient();
 
-        (new HttpClient($psrHttpClient, new RequestFactory()))->$method('https://activecollab.com?test=1');
+        $clientFactoryMock = $this->createMock(ClientFactoryInterface::class);
+        $clientFactoryMock
+            ->expects($this->once())
+            ->method('createClient')
+            ->willReturn($psrHttpClient);
+
+        (new HttpClient($clientFactoryMock, new RequestFactory()))->$method('https://activecollab.com?test=1');
 
         $capturedRequest = $psrHttpClient->getCapturedRequest();
 
