@@ -37,11 +37,6 @@ class ClientFactoryTest extends TestCase
         $clientFactory->createClient();
     }
 
-    public function testWillUseRequestClientMiddlewares(): void
-    {
-        $this->fail('No implemented');
-    }
-
     private function createTestFactory(
         ClientInterface $client,
         ClientMiddlewareInterface ...$defaultMiddlewares
