@@ -8,8 +8,10 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\HttpClient\Configure;
+namespace ActiveCollab\Utils\Test\HttpClient;
 
-interface ConfigureMiddlewareInterface
+use ActiveCollab\Utils\Test\Base\TestCase;
+
+class CurlClientTest extends TestCase
 {
 }

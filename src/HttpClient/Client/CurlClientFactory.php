@@ -8,8 +8,11 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\HttpClient\Configure;
+namespace ActiveCollab\HttpClient\Client;
 
-interface ConfigureMiddlewareInterface
+class CurlClientFactory
 {
+    public function createClient(): ClientInterface
+    {
+    }
 }
