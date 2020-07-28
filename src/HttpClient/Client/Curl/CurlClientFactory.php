@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace ActiveCollab\HttpClient\Client\Curl;
 
-use ActiveCollab\HttpClient\Client\ClientFactory;
+use ActiveCollab\HttpClient\Client\Factory\ClientFactory;
 use ActiveCollab\HttpClient\Client\ClientInterface;
 
 class CurlClientFactory extends ClientFactory

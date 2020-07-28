@@ -10,12 +10,12 @@ declare(strict_types=1);
 
 namespace ActiveCollab\HttpClient\Client\Curl;
 
-use ActiveCollab\HttpClient\Client\ClientInterface;
+use ActiveCollab\HttpClient\Client\Client;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class CurlClient implements ClientInterface, CurlClientInterface
+class CurlClient extends Client implements CurlClientInterface
 {
     private ResponseFactoryInterface $responseFactory;
 
@@ -36,8 +36,9 @@ class CurlClient implements ClientInterface, CurlClientInterface
         }
     }
 
-    public function setOption(int $option, $value): ClientInterface
+    public function setOption(int $option, $value): CurlClientInterface
     {
+        return $this;
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface

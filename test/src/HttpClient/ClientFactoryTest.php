@@ -10,13 +10,12 @@ declare(strict_types=1);
 
 namespace ActiveCollab\Utils\Test\HttpClient;
 
-use ActiveCollab\HttpClient\Client\ClientFactory;
-use ActiveCollab\HttpClient\Client\ClientFactoryInterface;
+use ActiveCollab\HttpClient\Client\Factory\ClientFactory;
+use ActiveCollab\HttpClient\Client\Factory\ClientFactoryInterface;
 use ActiveCollab\HttpClient\Client\ClientInterface;
 use ActiveCollab\HttpClient\Configure\ClientMiddleware\ClientMiddlewareInterface;
 use ActiveCollab\Utils\Test\Base\TestCase;
 use Laminas\Diactoros\ResponseFactory;
-use Psr\Http\Message\ResponseFactoryInterface;
 
 class ClientFactoryTest extends TestCase
 {
@@ -43,7 +42,10 @@ class ClientFactoryTest extends TestCase
         $this->fail('No implemented');
     }
 
-    private function createTestFactory(ClientInterface $client, ClientMiddlewareInterface ...$defaultMiddlewares): ClientFactoryInterface
+    private function createTestFactory(
+        ClientInterface $client,
+        ClientMiddlewareInterface ...$defaultMiddlewares
+    ): ClientFactoryInterface
     {
         return new class ($client, ...$defaultMiddlewares) extends ClientFactory
         {

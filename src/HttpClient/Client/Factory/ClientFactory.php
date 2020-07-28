@@ -8,8 +8,9 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\HttpClient\Client;
+namespace ActiveCollab\HttpClient\Client\Factory;
 
+use ActiveCollab\HttpClient\Client\ClientInterface;
 use ActiveCollab\HttpClient\Configure\ClientMiddleware\ClientMiddlewareInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 

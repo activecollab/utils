@@ -10,9 +10,6 @@ declare(strict_types=1);
 
 namespace ActiveCollab\HttpClient\Client;
 
-use ActiveCollab\HttpClient\Client\ClientInterface;
-
-interface ClientFactoryInterface
+abstract class Client implements ClientInterface
 {
-    public function createClient(): ClientInterface;
 }
