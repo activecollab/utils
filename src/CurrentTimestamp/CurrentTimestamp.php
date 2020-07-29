@@ -6,17 +6,13 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\CurrentTimestamp;
 
-/**
- * @package ActiveCollab\Utils\CurrentTimestamp
- */
 class CurrentTimestamp implements CurrentTimestampInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurrentTimestamp()
+    public function getCurrentTimestamp(): int
     {
         return time();
     }

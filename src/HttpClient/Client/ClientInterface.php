@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace ActiveCollab\Utils\Test\Base;
+namespace ActiveCollab\HttpClient\Client;
 
-use PHPUnit\Framework\TestCase as BaseTestCase;
+use Psr\Http\Client\ClientInterface as PsrClientInterface;
 
-abstract class TestCase extends BaseTestCase
+interface ClientInterface extends PsrClientInterface
 {
 }

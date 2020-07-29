@@ -25,34 +25,20 @@ class Encryptor implements EncryptorInterface
 {
     const METHOD = 'aes-256-cbc';
 
-    /**
-     * @var string
-     */
-    private $key;
+    private string $key;
+    private int $iv_size;
 
-    /**
-     * @var int
-     */
-    private $iv_size;
-
-    /**
-     * @param string $key
-     */
-    public function __construct($key)
+    public function __construct(string $key)
     {
-        if (!is_string($key) || empty($key)) {
-            throw new InvalidArgumentException('Key needs to be a non-empty string value');
+        if (empty($key)) {
+            throw new InvalidArgumentException('Key needs to be a non-empty string value.');
         }
 
         $this->key = $key;
         $this->iv_size = openssl_cipher_iv_length(self::METHOD);
     }
 
-    /**
-     * @param  mixed  $value
-     * @return string
-     */
-    public function encrypt($value)
+    public function encrypt($value): string
     {
         if (!is_string($value)) {
             $value = (string) $value;
@@ -60,14 +46,22 @@ class Encryptor implements EncryptorInterface
 
         $iv = openssl_random_pseudo_bytes($this->iv_size);
 
-        return base64_encode(openssl_encrypt($value, self::METHOD, $this->key, OPENSSL_RAW_DATA, $iv)) . ':' . base64_encode($iv);
+        return sprintf(
+            '%s:%s',
+            base64_encode(
+                openssl_encrypt(
+                    $value,
+                    self::METHOD,
+                    $this->key,
+                    OPENSSL_RAW_DATA,
+                    $iv
+                )
+            ),
+            base64_encode($iv)
+        );
     }
 
-    /**
-     * @param  string $value
-     * @return mixed
-     */
-    public function decrypt($value)
+    public function decrypt(string $value)
     {
         if (empty($value)) {
             throw new InvalidArgumentException('Value is required.');
@@ -79,6 +73,11 @@ class Encryptor implements EncryptorInterface
             throw new InvalidArgumentException('Separator not found in the encrypted data.');
         }
 
-        return openssl_decrypt(base64_decode($separated_data[0], true), self::METHOD, $this->key, OPENSSL_RAW_DATA, base64_decode($separated_data[1], true));
+        return openssl_decrypt(
+            base64_decode($separated_data[0], true),
+            self::METHOD, $this->key,
+            OPENSSL_RAW_DATA,
+            base64_decode($separated_data[1], true)
+        );
     }
 }

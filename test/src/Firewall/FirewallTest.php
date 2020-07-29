@@ -6,26 +6,27 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test\Firewall;
 
 use ActiveCollab\Utils\Test\Base\TestCase;
 use ActiveCollab\Firewall\Firewall;
 use ActiveCollab\Firewall\IpAddress;
+use InvalidArgumentException;
 
-/**
- * @package ActiveCollab.tests.authentication
- */
 class FirewallTest extends TestCase
 {
     /**
      * @dataProvider provideInvalidLists
      * @param array $white_list
      * @param array $black_list
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage are not valid
      */
     public function testInvalidListsFirewall($white_list, $black_list)
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("are not valid");
+
         new Firewall($white_list, $black_list);
     }
 

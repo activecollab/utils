@@ -6,27 +6,28 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test;
 
 use ActiveCollab\Encryptor\Encryptor;
 use ActiveCollab\Utils\Test\Base\TestCase;
+use InvalidArgumentException;
 
-/**
- * @package ActiveCollab\Cookies\Test
- */
 class EncryptionTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Key needs to be a non-empty string value
-     */
     public function testExceptionOnEmptyKey()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Key needs to be a non-empty string value");
+
         new Encryptor('');
     }
 
     public function testAcceptableKeys()
     {
+        $this->expectNotToPerformAssertions();
+
         new Encryptor('not 256 bit');
         new Encryptor('770A8A65DA156D24EE2A093277530142');
     }
@@ -39,7 +40,7 @@ class EncryptionTest extends TestCase
 
         $encrypted_value = $encryptor->encrypt($value_to_encrypt);
 
-        $this->assertInternalType('string', $encrypted_value);
+        $this->assertIsString('string', $encrypted_value);
         $this->assertNotEmpty($encrypted_value);
         $this->assertNotEquals($value_to_encrypt, $encrypted_value);
 
@@ -54,7 +55,7 @@ class EncryptionTest extends TestCase
 
         $encrypted_value = $encryptor->encrypt($value_to_encrypt);
 
-        $this->assertInternalType('string', $encrypted_value);
+        $this->assertIsString('string', $encrypted_value);
         $this->assertNotEmpty($encrypted_value);
         $this->assertNotEquals($value_to_encrypt, $encrypted_value);
 
@@ -69,7 +70,7 @@ class EncryptionTest extends TestCase
 
         $encrypted_value = $encryptor->encrypt($value_to_encrypt);
 
-        $this->assertInternalType('string', $encrypted_value);
+        $this->assertIsString('string', $encrypted_value);
         $this->assertNotEmpty($encrypted_value);
         $this->assertNotEquals($value_to_encrypt, $encrypted_value);
 
@@ -77,21 +78,19 @@ class EncryptionTest extends TestCase
         $this->assertSame((string) $value_to_encrypt, $encryptor->decrypt($encrypted_value));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Value is required.
-     */
     public function testDecryptEmptyValue()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value is required.");
+
         (new Encryptor('770A8A65DA156D24EE2A093277530142'))->decrypt('');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Separator not found in the encrypted data.
-     */
     public function testDecryptInvalidValue()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Separator not found in the encrypted data.");
+
         (new Encryptor('770A8A65DA156D24EE2A093277530142'))->decrypt('not encrypted');
     }
 }

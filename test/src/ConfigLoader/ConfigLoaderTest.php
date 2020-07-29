@@ -6,19 +6,22 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test\ConfigLoader;
 
 use ActiveCollab\ConfigLoader\ArrayConfigLoader;
 use ActiveCollab\ConfigLoader\Exception\ValidationException;
 use ActiveCollab\Utils\Test\Base\TestCase;
 use ActiveCollab\Utils\Test\Fixtures\TestConfigLoader;
+use LogicException;
 
 class ConfigLoaderTest extends TestCase
 {
     private $config_array_path;
     private $not_an_array_path;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -26,40 +29,36 @@ class ConfigLoaderTest extends TestCase
         $this->not_an_array_path = dirname(dirname(__DIR__)) . '/resources/not_an_array.php';
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Options file does not exist.
-     */
     public function testExceptionOnInvalidFilePath()
     {
-        $this->assertFileNotExists('/not-a-file');
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Options file does not exist.");
+
+        $this->assertFileDoesNotExist('/not-a-file');
         new ArrayConfigLoader('/not-a-file');
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Options not loaded.
-     */
     public function testExceptionOnPresenceCheckWhenOptionsAreNotLoaded()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Options not loaded.");
+
         (new ArrayConfigLoader($this->config_array_path))->hasValue('EMPTY_VALUE');
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Options not loaded.
-     */
     public function testExceptionOnGetWhenOptionsAreNotLoaded()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Options not loaded.");
+
         (new ArrayConfigLoader($this->config_array_path))->getValue('EMPTY_VALUE');
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Options already loaded.
-     */
     public function testExceptionOnMultipleLoadAttempts()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Options already loaded.");
+
         (new ArrayConfigLoader($this->config_array_path))
             ->load()
             ->load();
@@ -67,6 +66,8 @@ class ConfigLoaderTest extends TestCase
 
     public function testLoadOverridesNonArrayReturningFiles()
     {
+        $this->expectNotToPerformAssertions();
+
         (new ArrayConfigLoader($this->not_an_array_path))
             ->load();
     }
@@ -82,21 +83,19 @@ class ConfigLoaderTest extends TestCase
         $this->assertSame(1234567890, $config_loader->getValue('THIS ONE NOT FOUND', 1234567890));
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage This method should be called only during loading.
-     */
     public function testExceptionOnDirectOnLoadCall()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("This method should be called only during loading.");
+
         (new TestConfigLoader())->callOnLoad();
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage This method should be called only during loading.
-     */
     public function testExceptionOnDirectOnValidationFailedCall()
     {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("This method should be called only during loading.");
+
         (new TestConfigLoader())->callOnValidationFailed(new ValidationException());
     }
 }

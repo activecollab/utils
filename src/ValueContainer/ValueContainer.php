@@ -6,53 +6,33 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\ValueContainer;
 
-/**
- * @package ActiveCollab\ValueContainer
- */
 class ValueContainer implements ValueContainerInterface, WriteableValueContainerInterface
 {
-    /**
-     * @var bool
-     */
-    private $value_is_set = false;
-
-    /**
-     * @var mixed
-     */
+    private bool $value_is_set = false;
     private $value;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasValue()
+    public function hasValue(): bool
     {
         return $this->value_is_set;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue()
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function &setValue($value)
+    public function setValue($value): ValueContainerInterface
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function &removeValue()
+    public function removeValue(): ValueContainerInterface
     {
         $this->value = null;
         $this->value_is_set = false;

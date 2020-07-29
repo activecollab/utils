@@ -6,18 +6,11 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Firewall;
 
-/**
- * @package ActiveCollab\Firewall
- */
 interface IpAddressInterface
 {
-    /**
-     * Check if address is on the given list of rules.
-     *
-     * @param  array $list
-     * @return bool
-     */
-    public function isOnList(array $list);
+    public function isOnList(array $list): bool;
 }

@@ -6,24 +6,15 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\ValueContainer\Request;
 
 use ActiveCollab\ValueContainer\ValueContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @package ActiveCollab\ValueContainer\Request
- */
 interface RequestValueContainerInterface extends ValueContainerInterface
 {
-    /**
-     * @return ServerRequestInterface
-     */
-    public function getRequest();
-
-    /**
-     * @param  ServerRequestInterface $request
-     * @return $this
-     */
-    public function &setRequest(ServerRequestInterface $request);
+    public function getRequest(): ?ServerRequestInterface;
+    public function setRequest(?ServerRequestInterface $request): RequestValueContainerInterface;
 }

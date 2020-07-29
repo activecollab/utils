@@ -6,10 +6,13 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test\Firewall;
 
 use ActiveCollab\Utils\Test\Base\TestCase;
 use ActiveCollab\Firewall\IpAddress;
+use InvalidArgumentException;
 
 class IpAddressTest extends TestCase
 {
@@ -38,11 +41,14 @@ class IpAddressTest extends TestCase
     /**
      * @dataProvider provideInvalidAddresses
      * @param mixed $address_to_test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage not a valid IP address
+     *
+     *
      */
     public function testInvalidAddress($address_to_test)
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("not a valid IP address");
+
         new IpAddress($address_to_test);
     }
 
@@ -55,7 +61,7 @@ class IpAddressTest extends TestCase
             ['127.0.0'],
             [':1'],
             ['not an address'],
-            [123],
+            ['123'],
         ];
     }
 

@@ -16,7 +16,7 @@ class DotenvConfigLoaderTest extends TestCase
 {
     private $dotenv_dir_path;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

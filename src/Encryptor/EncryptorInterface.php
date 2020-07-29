@@ -6,22 +6,12 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Encryptor;
 
-/**
- * @package ActiveCollab\Encryptor
- */
 interface EncryptorInterface
 {
-    /**
-     * @param  mixed  $value
-     * @return string
-     */
-    public function encrypt($value);
-
-    /**
-     * @param  string $value
-     * @return mixed
-     */
-    public function decrypt($value);
+    public function encrypt($value): string;
+    public function decrypt(string $value);
 }
