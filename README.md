@@ -141,9 +141,9 @@ use ActiveCollab\Json\JsonEncoder;
 
 print (new JsonEncoder())->encode(
     [
-        'a' => 1, 
+        'a' => 1,
         'b' => 2,
-    ], 
+    ],
     true,
 );
 ```
@@ -180,10 +180,10 @@ use ActiveCollab\Url\Url;
 
 print (new Url('https://activecollab.com'))->getExtendedUrl(
     [
-        'utm_source' => 'activecollab', 
-        'utm_medium' => 'website', 
+        'utm_source' => 'activecollab',
+        'utm_medium' => 'website',
         'utm_campaign' => 'footer',
-    ]
+    ],
 );
 ```
 
