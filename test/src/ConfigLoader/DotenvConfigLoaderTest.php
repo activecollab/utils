@@ -6,9 +6,12 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test\ConfigLoader;
 
 use ActiveCollab\ConfigLoader\DotEnvConfigLoader;
+use ActiveCollab\ConfigLoader\DotenvFactory\DotenvFactory;
 use ActiveCollab\Utils\Test\Base\TestCase;
 use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\PutenvAdapter;
@@ -91,11 +94,6 @@ class DotenvConfigLoaderTest extends TestCase
 
     private function createDotenv(string $dir_path): Dotenv
     {
-        return Dotenv::create(
-            RepositoryBuilder::createWithNoAdapters()
-                ->addAdapter(PutenvAdapter::class)
-                ->make(),
-            $dir_path,
-        );
+        return (new DotenvFactory())->createDotenv($dir_path);
     }
 }

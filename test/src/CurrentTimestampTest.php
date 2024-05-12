@@ -6,14 +6,13 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test;
 
 use ActiveCollab\CurrentTimestamp\CurrentTimestamp;
 use ActiveCollab\Utils\Test\Base\TestCase;
 
-/**
- * @package ActiveCollab\Utils\Test
- */
 class CurrentTimestampTest extends TestCase
 {
     public function testDefaultImplementationUsesTime()

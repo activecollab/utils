@@ -6,14 +6,13 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test;
 
 use ActiveCollab\Utils\Test\Base\TestCase;
 use ActiveCollab\ValueContainer\ValueContainer;
 
-/**
- * @package ActiveCollab\Utils\Test
- */
 class ValueContainerTest extends TestCase
 {
     public function testValueIsNotSetByDefault()

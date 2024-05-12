@@ -18,17 +18,13 @@ class IpAddressTest extends TestCase
 {
     /**
      * @dataProvider provideValidAddresses
-     * @param string $address_to_test
      */
-    public function testValueAddress($address_to_test)
+    public function testValueAddress(string $address_to_test): void
     {
         $this->assertSame($address_to_test, (new IpAddress($address_to_test))->getIpAddress());
     }
 
-    /**
-     * @return array
-     */
-    public function provideValidAddresses()
+    public function provideValidAddresses(): array
     {
         return [
             ['127.0.0.1'],
@@ -40,11 +36,8 @@ class IpAddressTest extends TestCase
 
     /**
      * @dataProvider provideInvalidAddresses
-     * @param mixed $address_to_test
-     *
-     *
      */
-    public function testInvalidAddress($address_to_test)
+    public function testInvalidAddress(string $address_to_test): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("not a valid IP address");
@@ -52,10 +45,7 @@ class IpAddressTest extends TestCase
         new IpAddress($address_to_test);
     }
 
-    /**
-     * @return array
-     */
-    public function provideInvalidAddresses()
+    public function provideInvalidAddresses(): array
     {
         return [
             ['127.0.0'],

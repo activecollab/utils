@@ -6,6 +6,8 @@
  * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
+declare(strict_types=1);
+
 namespace ActiveCollab\Utils\Test\Fixtures;
 
 use ActiveCollab\ConfigLoader\ConfigLoader;
@@ -13,12 +15,12 @@ use ActiveCollab\ConfigLoader\Exception\ValidationException;
 
 class TestConfigLoader extends ConfigLoader
 {
-    public function callOnLoad()
+    public function callOnLoad(): void
     {
         $this->onLoad();
     }
 
-    public function callOnValidationFailed(ValidationException $e)
+    public function callOnValidationFailed(ValidationException $e): void
     {
         $this->onValidationFailed($e);
     }

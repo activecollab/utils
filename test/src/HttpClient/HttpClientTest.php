@@ -23,11 +23,12 @@ use Psr\Http\Message\ResponseInterface;
 class HttpClientTest extends TestCase
 {
     /**
-     * @dataProvider provideDataForMiddlewareInvokation
-     * @param string $method
-     * @param string $url
+     * @dataProvider provideDataForMiddlewareInvocation
      */
-    public function testWillInvokeMiddlewares(string $method, string $url): void
+    public function testWillInvokeMiddlewares(
+        string $method,
+        string $url,
+    ): void
     {
         $psrHttpClient = $this->createMock(ClientInterface::class);
         $psrHttpClient
@@ -64,7 +65,7 @@ class HttpClientTest extends TestCase
         call_user_func([$httpClient, $method], $url, $middleware1, $middleware2);
     }
 
-    public function provideDataForMiddlewareInvokation(): array
+    public function provideDataForMiddlewareInvocation(): array
     {
         return [
             ['get', 'https://activecollab.com'],
@@ -77,10 +78,11 @@ class HttpClientTest extends TestCase
 
     /**
      * @dataProvider provideDataForMakeRequestTest
-     * @param string $method
-     * @param string $expectedHttpMethod
      */
-    public function testWillSendRequest(string $method, string $expectedHttpMethod): void
+    public function testWillSendRequest(
+        string $method,
+        string $expectedHttpMethod,
+    ): void
     {
         $psrHttpClient = $this->getTestHttpClient();
 
