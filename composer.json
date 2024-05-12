@@ -11,7 +11,9 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring" : "*",
-        "ext-openssl" : "*"
+        "ext-openssl" : "*",
+        "dflydev/fig-cookies" : "^1.0",
+        "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",
@@ -32,6 +34,7 @@
         "psr-4": {
             "ActiveCollab\\ClassFinder\\": "src/ClassFinder",
             "ActiveCollab\\ConfigLoader\\": "src/ConfigLoader",
+            "ActiveCollab\\Cookies\\": "src/Cookies",
             "ActiveCollab\\CurrentTimestamp\\": "src/CurrentTimestamp",
             "ActiveCollab\\Encryptor\\": "src/Encryptor",
             "ActiveCollab\\Firewall\\": "src/Firewall",
