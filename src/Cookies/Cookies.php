@@ -29,7 +29,7 @@ class Cookies implements CookiesInterface
 
     public function __construct(
         CurrentTimestampInterface $currentTimestamp = null,
-        EncryptorInterface $encryptor = null
+        EncryptorInterface $encryptor = null,
     )
     {
         $this->currentTimestamp = $currentTimestamp;
