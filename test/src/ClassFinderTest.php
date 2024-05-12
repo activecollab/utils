@@ -27,16 +27,40 @@ class ClassFinderTest extends TestCase
             new ClassDir($this->dir_path, 'ActiveCollab\\Utils\\Test\\Resources\\DirToScan', LoadableClass::class),
         );
 
-        $this->assertCount(1, $classes);
+        $this->assertCount(2, $classes);
 
         $loadable_class_path = sprintf('%s/%s', $this->dir_path, 'LoadableClass.php');
+        $abstract_loadable_class_path = sprintf('%s/%s', $this->dir_path, 'AbstractLoadableClass.php');
 
         $this->assertArrayHasKey($loadable_class_path, $classes);
+        $this->assertArrayHasKey($abstract_loadable_class_path, $classes);
 
         $this->assertInstanceOf(ReflectionClass::class, $classes[$loadable_class_path]);
         $this->assertSame(
             $loadable_class_path,
             $classes[$loadable_class_path]->getFileName(),
         );
+
+        $this->assertInstanceOf(ReflectionClass::class, $classes[$abstract_loadable_class_path]);
+        $this->assertSame(
+            $abstract_loadable_class_path,
+            $classes[$abstract_loadable_class_path]->getFileName(),
+        );
+    }
+
+    public function testCanSkipAbstractClasses(): void
+    {
+        $classes = (new ClassFinder())->scanDirForClasses(
+            new ClassDir($this->dir_path, 'ActiveCollab\\Utils\\Test\\Resources\\DirToScan', LoadableClass::class),
+            true,
+        );
+
+        $this->assertCount(1, $classes);
+
+        $loadable_class_path = sprintf('%s/%s', $this->dir_path, 'LoadableClass.php');
+        $abstract_loadable_class_path = sprintf('%s/%s', $this->dir_path, 'AbstractLoadableClass.php');
+
+        $this->assertArrayHasKey($loadable_class_path, $classes);
+        $this->assertArrayNotHasKey($abstract_loadable_class_path, $classes);
     }
 }
