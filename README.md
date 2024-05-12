@@ -6,11 +6,15 @@ This package is a playground for "little" PHP utilities that we use everyday. Th
 
 ## What's Inside
 
-1. [Config Loader](#config-loader)
-1. [Current Timestamp](#current-timestamp)
-1. [Encryptor](#encryptor)
-1. [Firewall](#firewall)
-1. [Value Container](#value-container)
+1. [Class Finder](#class-finder)
+2. [Config Loader](#config-loader)
+3. [Current Timestamp](#current-timestamp)
+4. [Encryptor](#encryptor)
+5. [Firewall](#firewall)
+6. [Value Container](#value-container)
+7. [URL](#url)
+
+### Class Finder
 
 ### Config Loader
 
@@ -126,6 +130,24 @@ $firewall->shouldBlock(new IpAddress('72.165.1.2')); // No, address is white-lis
 $firewall->shouldBlock(new IpAddress('72.165.1.3')); // Yes, address is in the black-listed range.
 ```
 
+### JSON
+
+`ActiveCollab\Json\JsonEncoderInterface` - This interface and its implementation provide a way to encode JSON in a way that we usually do it, and to test if data is being encoded in tests.
+
+```php
+<?php
+
+use ActiveCollab\Json\JsonEncoder;
+
+print (new JsonEncoder())->encode(
+    [
+        'a' => 1, 
+        'b' => 2,
+    ], 
+    true,
+);
+```
+
 ### Value Container
 
 `ActiveCollab\ValueContainer\ValueContainerInterface` - Interface that enables value access abstraction. For example, it can be used to abstract access to a value in a way that class does not know where and how value is store, it just knows that it can check for its presence, get the value, set it or remove it.
@@ -147,9 +169,27 @@ $value_container = (new RequestValueContainer('value_that_we_need'))
 print_r($value_container->getValue()); // Prints array.
 ```
 
+### URL
+
+`ActiveCollab\Url\UrlInterface` - In the current form, implementation of this interface lets you easily add and remove query parameters to a known URL.
+
+```php
+<?php
+
+use ActiveCollab\Url\Url;
+
+print (new Url('https://activecollab.com'))->getExtendedUrl(
+    [
+        'utm_source' => 'activecollab', 
+        'utm_medium' => 'website', 
+        'utm_campaign' => 'footer',
+    ]
+);
+```
+
 ## How to Add a Utility
 
-1. Add autoloading code under `autoload` -> `psr-4` in `composer.json`,
-1. Update dependencies with `composer update`,
-1. Implement and test your utility class,
-1. Done.
+1. Add auto-loading code under `autoload` -> `psr-4` in `composer.json`,
+2. Update dependencies with `composer update`,
+3. Implement and test your utility class,
+4. Done.

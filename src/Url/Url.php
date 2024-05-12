@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Feud project.
+ * This file is part of the Active Collab Utils project.
  *
- * (c) PhpCloud.org Core Team <core@phpcloud.org>. All rights reserved.
+ * (c) A51 doo <info@activecollab.com>. All rights reserved.
  */
 
 declare(strict_types=1);

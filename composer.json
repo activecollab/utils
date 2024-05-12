@@ -39,6 +39,7 @@
             "ActiveCollab\\Encryptor\\": "src/Encryptor",
             "ActiveCollab\\Firewall\\": "src/Firewall",
             "ActiveCollab\\HttpClient\\": "src/HttpClient",
+            "ActiveCollab\\Json\\": "src/Json",
             "ActiveCollab\\ValueContainer\\": "src/ValueContainer",
             "ActiveCollab\\Url\\": "src/Url"
         }
