@@ -138,7 +138,12 @@ try {
 
 ### Cookies
 
-`ActiveCollab\Cookies\CookiesInterface` - This interface and its implementation build on top of [dflydev-fig-cookies](https://github.com/dflydev/dflydev-fig-cookies) to provide higher level handling of cookies in PHP applications that use PSR-7 messages. Utility class provides a way to check for cookie existence, and to get, set and remove a cookie.
+`ActiveCollab\Cookies\CookiesInterface` - This interface and its implementation build on top of [dflydev-fig-cookies](https://github.com/dflydev/dflydev-fig-cookies) to provide higher level handling of cookies in PHP applications that use PSR-7 messages. Utility class provides a way to check for cookie existence, and to get, set and remove a cookie. Features include:
+
+1. Automatic cookie prefixing,
+2. Automatic cookie encryption,
+3. Setting cookie's time to live relative to current timestamp,
+4. Marking cookies as HTTP only, or secure.
 
 ```php
 <?php
