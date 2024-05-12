@@ -11,10 +11,12 @@ namespace ActiveCollab\Utils\Test\ConfigLoader;
 use ActiveCollab\ConfigLoader\DotEnvConfigLoader;
 use ActiveCollab\Utils\Test\Base\TestCase;
 use Dotenv\Dotenv;
+use Dotenv\Repository\Adapter\PutenvAdapter;
+use Dotenv\Repository\RepositoryBuilder;
 
 class DotenvConfigLoaderTest extends TestCase
 {
-    private $dotenv_dir_path;
+    private string $dotenv_dir_path;
 
     protected function setUp(): void
     {
@@ -25,12 +27,15 @@ class DotenvConfigLoaderTest extends TestCase
 
     /**
      * @dataProvider hasValueDataProvider
-     * @param string $config_option
-     * @param bool   $should_be_found
      */
-    public function testHasValue($config_option, $should_be_found)
+    public function testHasValue(
+        string $config_option,
+        bool $should_be_found,
+    ): void
     {
-        $has_value = (new DotEnvConfigLoader(new Dotenv($this->dotenv_dir_path)))
+        $dotenv = $this->createDotenv($this->dotenv_dir_path);
+
+        $has_value = (new DotEnvConfigLoader($dotenv))
             ->load()
             ->hasValue($config_option);
 
@@ -41,7 +46,7 @@ class DotenvConfigLoaderTest extends TestCase
         }
     }
 
-    public function hasValueDataProvider()
+    public function hasValueDataProvider(): array
     {
         return [
             ['CONFIG_OPTION', true],
@@ -55,20 +60,23 @@ class DotenvConfigLoaderTest extends TestCase
 
     /**
      * @dataProvider getValueDataProvider
-     * @param string $config_option
-     * @param string $default_value
-     * @param bool   $expected_value
      */
-    public function testGetValue($config_option, $default_value, $expected_value)
+    public function testGetValue(
+        string $config_option,
+        ?string $default_value,
+        ?string $expected_value,
+    ): void
     {
-        $value = (new DotEnvConfigLoader(new Dotenv($this->dotenv_dir_path)))
+        $dotenv = $this->createDotenv($this->dotenv_dir_path);
+
+        $value = (new DotEnvConfigLoader($dotenv))
             ->load()
             ->getValue($config_option, $default_value);
 
         $this->assertSame($expected_value, $value);
     }
 
-    public function getValueDataProvider()
+    public function getValueDataProvider(): array
     {
         return [
             ['CONFIG_OPTION', null, 'Value'],
@@ -79,5 +87,15 @@ class DotenvConfigLoaderTest extends TestCase
             ['not_found', null, null],
             ['return_different_default', 'different-default', 'different-default'],
         ];
+    }
+
+    private function createDotenv(string $dir_path): Dotenv
+    {
+        return Dotenv::create(
+            RepositoryBuilder::createWithNoAdapters()
+                ->addAdapter(PutenvAdapter::class)
+                ->make(),
+            $dir_path,
+        );
     }
 }

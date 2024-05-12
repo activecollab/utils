@@ -7,7 +7,7 @@
     "license": "MIT",
     "type": "library",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring" : "*",
@@ -20,7 +20,7 @@
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "~1.0",
-        "vlucas/phpdotenv": "^2.2.0"
+        "vlucas/phpdotenv": "^5.0.0"
     },
     "suggest": {
         "psr/http-client": "When you need to use HttpClient",
