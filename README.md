@@ -11,10 +11,31 @@ This package is a playground for "little" PHP utilities that we use everyday. Th
 3. [Current Timestamp](#current-timestamp)
 4. [Encryptor](#encryptor)
 5. [Firewall](#firewall)
-6. [Value Container](#value-container)
-7. [URL](#url)
+6. [JSON](#json)
+7. [Value Container](#value-container)
+8. [URL](#url)
 
 ### Class Finder
+
+`ActiveCollab\ClassFinder\ClassFinderInterface` - This interface and its implementation provide an easy way to scan directory for classes that extend specified classes, and optional instantination of objects of these classes. It's useful for automatic discovery of command classes in CLI applications, controllers, components, etc.
+
+```php
+<?php
+
+use ActiveCollab\ClassFinder\ClassFinder;
+
+$command_classes = (new ClassFinder())->scanDirForClasses(
+    new ClassDir(
+        __DIR__ . '/commands',
+        'MyApp\\Commands',
+        Command::class,
+    ),
+);
+
+foreach ($command_classes as $command_class) {
+   // Do something with the command class.
+}
+```
 
 ### Config Loader
 
