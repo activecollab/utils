@@ -227,6 +227,24 @@ print (new JsonEncoder())->encode(
 );
 ```
 
+### Phone Number
+
+Wrap around libphonenumber to provide phone number value object.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace MyApp;
+
+use ActiveCollab\PhoneNumber\Factory\PhoneNumberFactory;
+use libphonenumber\PhoneNumberUtil;
+
+$phoneNumber = (new PhoneNumberFactory(PhoneNumberUtil::getInstance()))->create('+1 800 444 4444');
+print $phoneNumber-getNationalPhoneNumber() . "\n";
+```
+
 ### Value Container
 
 `ActiveCollab\ValueContainer\ValueContainerInterface` - Interface that enables value access abstraction. For example, it can be used to abstract access to a value in a way that class does not know where and how value is store, it just knows that it can check for its presence, get the value, set it or remove it.
