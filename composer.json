@@ -12,7 +12,7 @@
         "ext-json": "*",
         "ext-mbstring" : "*",
         "ext-openssl" : "*",
-        "dflydev/fig-cookies" : "^1.0",
+        "dflydev/fig-cookies" : "^3.0",
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {

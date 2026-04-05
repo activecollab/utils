@@ -26,8 +26,8 @@ class PrefixTest extends CookiesTestCase
 
         $this->setCookies(
             [
-                'other_websites_cookie' => 123,
-                'prefix_test_our_cookie' => 987,
+                'other_websites_cookie' => '123',
+                'prefix_test_our_cookie' => '987',
             ]
         );
 

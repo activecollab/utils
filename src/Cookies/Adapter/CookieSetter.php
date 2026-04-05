@@ -64,9 +64,9 @@ class CookieSetter implements CookieSetterInterface
         $cookies = Cookies::fromRequest($request);
 
         if ($cookies->has($this->name)) {
-            $cookie = $cookies->get($this->name)->withValue($this->value);
+            $cookie = $cookies->get($this->name)->withValue((string) $this->value);
         } else {
-            $cookie = Cookie::create($this->name, $this->value);
+            $cookie = Cookie::create($this->name, (string) $this->value);
         }
 
         return $cookies
@@ -79,9 +79,9 @@ class CookieSetter implements CookieSetterInterface
         $setCookies = SetCookies::fromResponse($response);
 
         if ($setCookies->has($this->name)) {
-            $set_cookie = $setCookies->get($this->name)->withValue($this->value);
+            $set_cookie = $setCookies->get($this->name)->withValue((string) $this->value);
         } else {
-            $set_cookie = SetCookie::create($this->name, $this->value);
+            $set_cookie = SetCookie::create($this->name, (string) $this->value);
         }
 
         $set_cookie = $set_cookie
